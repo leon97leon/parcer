@@ -101,7 +101,7 @@ class Ui_Form(QWidget):
             values.append(self.model_add.index(0, i).data())
         self.cursor.execute(query, tuple(values))
         self.conn.commit()
-        self.model.setQuery(QSqlQuery(self.qr))
+        self.model.setQuery(QSqlQuery(qr))
         self.add_window.close()
 
     def edit(self):
@@ -142,7 +142,7 @@ class Ui_Form(QWidget):
             values_edit.append(self.model.index(self.row, i).data())
         self.cursor.execute(query_edit, tuple(values_edit))
         self.conn.commit()
-        self.model.setQuery(QSqlQuery(self.qr))
+        self.model.setQuery(QSqlQuery(qr))
         self.edit_window.close()
 
 
@@ -151,7 +151,7 @@ class Ui_Form(QWidget):
         self.data = [x.data() for x in self.treeView.selectedIndexes()]
         self.cursor.execute(query_del, tuple(self.data))
         self.conn.commit()
-        self.model.setQuery(QSqlQuery(self.qr))
+        self.model.setQuery(QSqlQuery(qr))
 if __name__ in "__main__":
     class mywindow(QtWidgets.QMainWindow):
         def __init__(self):

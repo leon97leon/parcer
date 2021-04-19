@@ -127,14 +127,14 @@ class Ui_MainWindow(QWidget):
         if self.lineEdit.text() == '':
             QMessageBox.critical(self, "Ошибка ", "Выберите файл с ИНН.", QMessageBox.Ok)
         else:
-            main.run(self.lineEdit.text(),self.progressBar)
             try:
                 self.create_file()
                 self.progressBar.setProperty("value", 30)
             except:
                 QMessageBox.critical(self, "Ошибка ", "Закройте файл result.xlsx", QMessageBox.Ok)
+            main.run(self.lineEdit.text(), self.progressBar,self)
             self.progressBar.setProperty("value", 100)
-            QMessageBox.information(self, "Информация", "Парсинг завершен, результаты записаны в result.xlsx", QMessageBox.Ok)
+
 
 
 class mywindow(QtWidgets.QMainWindow):

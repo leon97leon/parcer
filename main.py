@@ -4,6 +4,7 @@ import pandas as pd
 from writer import Writexlsx
 from creat_sql import writex_sql
 from multiprocessing import Pool,Array
+from PyQt5.QtWidgets import QMessageBox
 
 BASE_URL = "http://reestr.nostroy.ru"
 
@@ -62,16 +63,17 @@ def make_all(url):
             info = certificates(rules(information(info, urls_inn[i], i), urls_inn[i], i), urls_inn[i], i)
     return info
 
-def run(file,progressBar):
+def run(file,progressBar,windows):
     count = Array('i', [])
     inn = pd.read_excel(file, dtype=str)["ИНН"].tolist()
     urls = [BASE_URL + "/reestr?m.inn=" + x for x in inn]
     with Pool(10) as p:
-        progressBar.setProperty("value", progressBar.value() + 60)
+        progressBar.setProperty("value", 60)
         count = p.map(make_all, urls)
-    progressBar.setProperty("value", progressBar.value() + 80)
+    progressBar.setProperty("value", 80)
     wr = Writexlsx([x for x in count if x])
     wr.run()
+    QMessageBox.information(windows, "Информация", "Парсинг завершен, результаты записаны в result.xlsx. Получено %s ИНН, спаршено %s" %(len(urls), len(count)), QMessageBox.Ok)
 if __name__ == '__main__':
     info = []
     count=Array('i',[])
